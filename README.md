@@ -1,98 +1,281 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Finance Tracker - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS REST API backend for the Finance Tracker application, providing authentication, transaction management, budget tracking, and financial analytics.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tech Stack
 
-## Description
+- **Framework**: NestJS 11
+- **Language**: TypeScript
+- **Database**: PostgreSQL (via TypeORM)
+- **Authentication**: JWT (Passport)
+- **Validation**: class-validator, class-transformer
+- **Password Hashing**: bcrypt
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Project setup
+- Node.js 20+ (required)
+- PostgreSQL database (local or cloud-hosted)
+- npm or yarn
+
+## Installation
+
+1. Install dependencies:
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+2. Set up environment variables:
+
+Create a `.env` file in the root of the backend directory:
 
 ```bash
-# development
-$ npm run start
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/finance_tracker
 
-# watch mode
-$ npm run start:dev
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=7d
 
-# production mode
-$ npm run start:prod
+# Server
+PORT=3000
 ```
 
-## Run tests
+> **Note**: The `.env` file is gitignored. Never commit sensitive credentials.
+
+### Database Setup
+
+The application uses PostgreSQL. You can use:
+
+- **Local PostgreSQL**: Install and run PostgreSQL locally
+- **Cloud Database**: Use services like Neon, Supabase, or AWS RDS
+
+Example connection string format:
+```
+postgresql://username:password@host:port/database
+```
+
+For cloud databases (like Neon), the connection string typically includes SSL parameters:
+```
+postgresql://user:pass@host.neon.tech/dbname?sslmode=require
+```
+
+## Running the Application
+
+### Development Mode
+
+Start the development server with hot-reload:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
+The server will start on `http://localhost:3000` (or the port specified in `PORT` environment variable).
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Production Mode
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Build and run the production server:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Build the application
+npm run build
+
+# Run production server
+npm run start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Debug Mode
 
-## Resources
+Run with debugging enabled:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm run start:debug
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## API Endpoints
 
-## Support
+The API is prefixed with `/api`. All endpoints require authentication unless specified.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Authentication
 
-## Stay in touch
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login and get JWT token
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Transactions
+
+- `GET /api/transactions` - Get user's transactions (paginated)
+- `GET /api/transactions/:id` - Get a specific transaction
+- `POST /api/transactions` - Create a new transaction
+- `PUT /api/transactions/:id` - Update a transaction
+- `DELETE /api/transactions/:id` - Delete a transaction
+- `GET /api/transactions/summary` - Get financial summary (requires `startDate` and `endDate` query params)
+
+### Categories
+
+- `GET /api/categories` - Get all categories
+- `POST /api/categories` - Create a category
+- `PUT /api/categories/:id` - Update a category
+- `DELETE /api/categories/:id` - Delete a category
+
+### Budgets
+
+- `GET /api/budgets` - Get user's budgets
+- `POST /api/budgets` - Create a budget
+- `PUT /api/budgets/:id` - Update a budget
+- `DELETE /api/budgets/:id` - Delete a budget
+
+## Authentication
+
+The API uses JWT (JSON Web Tokens) for authentication:
+
+1. Register or login to receive an access token
+2. Include the token in the `Authorization` header for protected routes:
+   ```
+   Authorization: Bearer <your-token>
+   ```
+
+## Project Structure
+
+```
+backend/
+├── src/
+│   ├── auth/              # Authentication module
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.module.ts
+│   │   ├── jwt.strategy.ts
+│   │   └── dto/
+│   │       └── auth.dto.ts
+│   ├── transactions/      # Transaction management
+│   │   ├── transactions.controller.ts
+│   │   ├── transactions.service.ts
+│   │   ├── transactions.module.ts
+│   │   ├── transaction.entity.ts
+│   │   └── dto/
+│   │       └── transaction.dto.ts
+│   ├── categories/        # Category management
+│   │   ├── categories.controller.ts
+│   │   ├── categories.service.ts
+│   │   ├── categories.module.ts
+│   │   ├── category.entity.ts
+│   │   └── dto/
+│   │       └── category.dto.ts
+│   ├── budgets/           # Budget management
+│   │   ├── budgets.controller.ts
+│   │   ├── budgets.service.ts
+│   │   ├── budgets.module.ts
+│   │   ├── budget.entity.ts
+│   │   └── dto/
+│   │       └── budget.dto.ts
+│   ├── users/             # User entity
+│   │   └── user.entity.ts
+│   ├── common/            # Shared utilities
+│   │   ├── decorators/
+│   │   │   └── current-user.decorator.ts
+│   │   └── guards/
+│   │       └── jwt-auth.guard.ts
+│   ├── config/            # Configuration
+│   │   └── database.config.ts
+│   ├── app.module.ts      # Root module
+│   └── main.ts            # Application entry point
+├── test/                  # E2E tests
+└── dist/                  # Compiled output (generated)
+```
+
+## Environment Variables
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | Yes | - |
+| `JWT_SECRET` | Secret key for JWT token signing | Yes | - |
+| `JWT_EXPIRES_IN` | JWT token expiration time | No | `7d` |
+| `PORT` | Server port | No | `3000` |
+
+## Database Schema
+
+The application uses TypeORM entities:
+
+- **User**: User accounts with email, password (hashed), name, and currency preference
+- **Transaction**: Financial transactions with amount, type, date, category, and notes
+- **Category**: Transaction categories with name, icon, color, and type
+- **Budget**: Budgets for categories with amount, period, and tracking
+
+> **Note**: `synchronize: true` is enabled in development. **Disable this in production** and use migrations instead.
+
+## Validation
+
+The API uses `class-validator` for request validation. All DTOs include validation decorators:
+
+- `@IsEmail()` - Email validation
+- `@IsString()`, `@IsNumber()` - Type validation
+- `@IsEnum()` - Enum validation
+- `@IsOptional()` - Optional fields
+- `@Min()`, `@Max()` - Range validation
+
+Invalid requests return `400 Bad Request` with validation error details.
+
+## CORS
+
+CORS is enabled for all origins in development. Configure CORS settings in `main.ts` for production.
+
+## Testing
+
+```bash
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
+
+# Test coverage
+npm run test:cov
+
+# Watch mode
+npm run test:watch
+```
+
+## Code Quality
+
+```bash
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+```
+
+## Production Considerations
+
+1. **Database Synchronization**: Disable `synchronize: true` in `app.module.ts` and use migrations
+2. **Environment Variables**: Use secure secret management (AWS Secrets Manager, etc.)
+3. **CORS**: Configure specific allowed origins instead of allowing all
+4. **Rate Limiting**: Consider adding rate limiting for API endpoints
+5. **Logging**: Implement proper logging (Winston, Pino, etc.)
+6. **Error Handling**: Customize error responses for production
+7. **HTTPS**: Always use HTTPS in production
+8. **JWT Secret**: Use a strong, randomly generated secret
+
+## Troubleshooting
+
+### Database Connection Issues
+
+- Verify `DATABASE_URL` is correct
+- Ensure PostgreSQL is running
+- Check network connectivity for cloud databases
+- Verify SSL settings match your database provider
+
+### JWT Errors
+
+- Ensure `JWT_SECRET` is set and not empty
+- Verify token expiration settings
+- Check that tokens are being sent in the `Authorization` header
+
+### Port Already in Use
+
+- Change the `PORT` environment variable
+- Or kill the process using port 3000: `lsof -ti:3000 | xargs kill`
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Private project.
+
